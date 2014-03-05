@@ -18,3 +18,5 @@ $wgExtensionMessagesFiles['ConfigWikiAlias'] = dirname( __FILE__ ) . '/ConfigWik
 $wgSpecialPages['ConfigWiki'] = 'SpecialConfigWiki';
 $wgSpecialPages['GlobalConfigWiki'] = 'SpecialGlobalConfigWiki';
 
+$wgAvailableRights = array_merge( $wgAvailableRights, array( 'configwiki', 'configwiki-editprotected', 'configwiki-global' ) );
+

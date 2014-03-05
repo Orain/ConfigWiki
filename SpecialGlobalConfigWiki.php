@@ -23,8 +23,15 @@ class SpecialGlobalConfigWiki extends SpecialPage {
 		parent::__construct( 'GlobalConfigWiki' );
 	}
 
+	function userCanEdit( $user ) {
+		global $wgUser;
+		return $wgUser->isAllowed( 'configwiki-global' );
+	}
+
 	function execute( $par ) {
 		$this->setHeaders();
+
+		$this->getOutput()->setPageTitle( $this->msg( 'globalconfigwiki' ) );
 	}
 }
 
