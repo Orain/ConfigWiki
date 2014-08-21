@@ -52,15 +52,12 @@ class SpecialConfigWiki extends SpecialPage {
 
 		$formDescriptor = array();
 		foreach ( $res as $row ) {
-			// Locked checkbox
-			$formDescriptor[$row->name . '-locked'] = array(
+			$formDescriptor[$row->name . '-desc'] = array(
 				'section' => $row->name,
-				'type' => 'check',
-				'label' => 'Locked',
-				'default' => $row->locked,
-				'disabled' => true,
+				'type' => 'info',
+				'label' => '',
+				'default' => $row->description,
 			);
-
 
 			$formDescriptor[$row->name . '-custom'] = array(
 				'section' => $row->name,
@@ -75,4 +72,3 @@ class SpecialConfigWiki extends SpecialPage {
 		$htmlForm->show();
 	}
 }
-
