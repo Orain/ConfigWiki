@@ -23,20 +23,56 @@ class SpecialConfigWiki extends SpecialPage {
 		parent::__construct( 'ConfigWiki' );
 	}
 
-	function userCanEdit( $user ) {
-		global $wgUser;
-		return $wgUser->isAllowed( 'configwiki' );
+	function userCanEdit() {
+		return $this->getUser()->isAllowed( 'configwiki' );
 	}
 
-	function userCanEditProtected( $user ) {
-		global $wgUser;
-		return $wgUser->isAllowedAll( 'configwiki', 'configwiki-editprotected' );
+	function userCanEditProtected() {
+		return $this->getUser()->isAllowedAll( 'configwiki', 'configwiki-editprotected' );
 	}
 
 	function execute( $par ) {
 		$this->setHeaders();
-
 		$this->getOutput()->setPageTitle( $this->msg( 'configwiki' ) );
+
+		$dbr = wfGetDB( DB_SLAVE );
+		$res = $dbr->select(
+			array( 'g' => 'globalconfigwiki', 'l' => 'configwiki' ), // Aliases => tables
+			array( 'name', 'description', 'locked', 'default_value', 'local_value' ), // Fields
+			array( 'locked != TRUE'), // Condition
+			__METHOD__,
+			array(),
+			array( // Left outer join on configwiki
+				array( 'l' => array(
+					'LEFT OUTER JOIN',
+					array('g.name=l.name'),
+				)
+			),
+		);
+
+		$formDescriptor = array();
+		foreach ( $res as $row ) {
+			// Locked checkbox
+			$formDescriptor[$row->name . '-locked'] = array(
+				'section' => $row->name,
+				'type' => 'check',
+				'label' => 'Locked',
+				'default' => $row->locked,
+				'disabled' => true,
+			);
+
+
+			$formDescriptor[$row->name . '-custom'] = array(
+				'section' => $row->name,
+				'type' => 'text',
+				'label' => 'Custom value',
+				'default' => $row->local_value,
+			);
+		}
+
+		$htmlForm = new HTMLForm( $formDescriptor, $this->getContext() );
+		$htmlForm->setSubmitText( 'Submit' );
+		$htmlForm->show();
 	}
 }
 
