@@ -20,3 +20,10 @@ $wgSpecialPages['GlobalConfigWiki'] = 'SpecialGlobalConfigWiki';
 
 $wgAvailableRights = array_merge( $wgAvailableRights, array( 'configwiki', 'configwiki-editprotected', 'configwiki-global' ) );
 
+$wgHooks['LoadExtensionSchemaUpdates'][] = 'fnCreateTables';
+function fnCreateTables( DatabaseUpdater $updater ) {
+	$updater->addExtensionTable( 'configwiki', dirname( __FILE__ ) . '/tables/configwiki.sql', true );
+	$updater->addExtensionTable( 'globalconfigwiki', dirname( __FILE__ ) . '/tables/globalconfigwiki.sql', true );
+	return true;
+}
+
