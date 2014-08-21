@@ -12,11 +12,11 @@ $wgExtensionCredits['specialpage'][] = array(
 );
 
 $wgAutoloadClasses['SpecialConfigWiki'] = dirname( __FILE__ ) . '/SpecialConfigWiki.php';
-$wgAutoloadClasses['SpecialGlobalConfigWiki'] = dirname( __FILE__ ) . '/SpecialGlobalConfigWiki.php';
+// $wgAutoloadClasses['SpecialGlobalConfigWiki'] = dirname( __FILE__ ) . '/SpecialGlobalConfigWiki.php';
 $wgExtensionMessagesFiles['ConfigWiki'] = dirname( __FILE__ ) . '/ConfigWiki.i18n.php';
 $wgExtensionMessagesFiles['ConfigWikiAlias'] = dirname( __FILE__ ) . '/ConfigWiki.alias.php';
 $wgSpecialPages['ConfigWiki'] = 'SpecialConfigWiki';
-$wgSpecialPages['GlobalConfigWiki'] = 'SpecialGlobalConfigWiki';
+// $wgSpecialPages['GlobalConfigWiki'] = 'SpecialGlobalConfigWiki';
 
 $wgAvailableRights = array_merge( $wgAvailableRights, array( 'configwiki', 'configwiki-editprotected', 'configwiki-global' ) );
 
